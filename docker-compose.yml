@@ -1,0 +1,53 @@
+services:
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "5000:5000"
+      - "50051:50051" # gRPC
+    depends_on:
+      auth-db:
+        condition: service_healthy
+
+  booking-service:
+    build: ./booking-service
+    ports:
+      - "8000:8000"
+    depends_on:
+      booking-db:
+        condition: service_healthy
+
+  auth-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${AUTH_DB_NAME}
+      POSTGRES_USER: ${AUTH_DB_USER}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${AUTH_DB_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  booking-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${BOOKING_DB_NAME}
+      POSTGRES_USER: ${BOOKING_DB_USER}
+      POSTGRES_PASSWORD: ${BOOKING_DB_PASSWORD}
+    ports:
+      - "5433:5432" # 호스트 5433 -> 컨테이너 5432 (PostgreSQL은 컨테이너 안에서 5432를 리슨)
+    volumes:
+      - booking_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${BOOKING_DB_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  auth_db_data:
+  booking_db_data:
