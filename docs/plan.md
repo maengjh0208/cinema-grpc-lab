@@ -9,13 +9,13 @@
 
 ---
 
-## Phase 1: 기반 구조 세팅
-- [ ] 디렉토리 구조 생성 (`auth-service/`, `booking-service/`, `proto/`)
-- [ ] 각 서비스 `requirements.txt` 작성
-- [ ] 각 서비스 `Dockerfile` 작성
-- [ ] `docker-compose.yml` 작성 (auth-service, booking-service, auth-db, booking-db)
-- [ ] `.gitignore` 확인 (`*_pb2.py`, `.env` 등)
-- [ ] `.env.example` 작성 (DB 접속 정보 등)
+## Phase 1: 기반 구조 세팅 ✅
+- [x] 디렉토리 구조 생성 (`auth-service/`, `booking-service/`, `proto/`)
+- [x] 각 서비스 `requirements.txt` 작성
+- [x] 각 서비스 `Dockerfile` 작성
+- [x] `docker-compose.yml` 작성 (auth-service, booking-service, auth-db, booking-db)
+- [x] `.gitignore` 확인 (`*_pb2.py`, `.env` 등)
+- [x] `.env.example` 작성 (DB 접속 정보 등)
 
 ## Phase 2: auth-service (Flask)
 - [ ] Flask 앱 기본 구조 (`app.py`, `blueprints/`)
@@ -51,4 +51,4 @@
 ---
 
 ## 현재 단계
-**Phase 1 진행 중**
+**Phase 2 진행 중** — auth-service Flask 앱 구현 시작

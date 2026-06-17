@@ -1,0 +1,7 @@
+fastapi
+uvicorn             # FastAPI 실행 서버
+sqlalchemy          # ORM
+psycopg2-binary     # PostgreSQL 드라이버 (-binary는 C 컴파일 없이 설치되는 버전으로 학습용으로 적합. 프로덕션에서는 psycopg2 쓰는걸 권장)
+pyjwt               # JWT 검증
+grpcio              # gRPC 런타임
+grpcio-tools        # protoc 코드 생성 도구
