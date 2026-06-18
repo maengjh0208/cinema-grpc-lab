@@ -12,3 +12,24 @@
   - 각 서비스 `Dockerfile`, `requirements.txt`
   - `.env`, `.env.example`, `.gitignore` (`*_pb2.py` 추가)
 - **다음 할 일**: Phase 2 — auth-service Flask 앱 구현 (Application Factory 패턴부터)
+
+## 2026-06-17
+- Phase 2 진행 중
+  - `app/__init__.py` Application Factory 패턴 구현 완료 (`create_app`, `db = SQLAlchemy()`, Blueprint 등록)
+  - ORM 전략을 DB-first(SQLAlchemy Reflection)로 변경 결정 — SQL 초기화 스크립트가 스키마 소스 오브 트루스
+  - docs 업데이트: decisions.md에 ORM 전략 결정 기록, plan.md Phase 2 태스크 갱신, architecture.md 디렉토리 구조 반영
+
+## 2026-06-18
+- Phase 2 계속
+  - `postgres/auth-init/01_create_users.sql` 작성 (참고용으로 보존, 실제 미사용)
+  - `docker-compose.yml` — `env_file: .env`로 환경변수 주입, auth-db init 스크립트 볼륨 마운트 제거
+  - `app/__init__.py` — DB URI PostgreSQL로 교체, 환경변수 기반으로 수정
+  - ORM 전략 재결정: DB-first + Reflection → **Code-first + Alembic 마이그레이션**으로 변경
+  - `requirements.txt` — Flask-Migrate 추가
+  - `app/__init__.py` — Flask-Migrate 연동, models import 추가
+  - `app/blueprints/auth.py` — Blueprint 선언
+  - `app.py` — 엔트리포인트 작성
+  - `docker-compose.yml` — auth-service 볼륨 마운트 추가 (코드 변경 즉시 반영)
+  - `Makefile` — auth-migrate, auth-migrate-create, auth-migrate-init 명령 추가
+  - Alembic 초기화 (`flask db init`) 및 첫 마이그레이션 생성/적용 완료 (`users` 테이블)
+- **다음 할 일**: 회원가입 API `POST /register` → 로그인 API `POST /login` + JWT 발급

@@ -40,6 +40,26 @@
 
 ---
 
+## [2026-06-18] ORM 전략 변경: Code-first + Alembic 마이그레이션
+
+**결정**: SQLAlchemy ORM 모델을 코드로 정의하고, Alembic(Flask-Migrate)으로 스키마 변경을 관리
+
+**이유**
+- Alembic이 Python 마이크로서비스 생태계에서 가장 널리 쓰이는 마이그레이션 도구
+- 스키마 변경 이력이 마이그레이션 파일로 남아 추적 가능
+- DB를 날리지 않고 `flask db upgrade`만으로 스키마 변경 적용 가능
+- 이전에 경험한 적 있어 러닝 커브 낮음
+
+**구현 방식**
+- `app/models.py` — SQLAlchemy ORM 모델로 테이블 구조 정의 (소스 오브 트루스)
+- `Flask-Migrate` — Alembic 래퍼, `flask db init/migrate/upgrade` 명령 제공
+- Docker 컨테이너 시작 시 `flask db upgrade` 실행으로 마이그레이션 자동 적용
+- `postgres/auth-init/01_create_users.sql` — 참고용으로 보존, 실제 사용 안 함
+
+**대안**: DB-first + SQLAlchemy Reflection — DB 스키마가 소스 오브 트루스이나, Flask 앱 컨텍스트와의 연동이 복잡하고 이 프로젝트 규모에서 오버스펙
+
+---
+
 ## [2026-06-16] DB: PostgreSQL (서비스별 독립 DB)
 
 **결정**: 서비스마다 별도 PostgreSQL 인스턴스 사용

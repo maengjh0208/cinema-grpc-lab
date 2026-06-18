@@ -53,17 +53,25 @@ cinema-grpc-lab/
 │   ├── architecture.md          # 이 파일
 │   └── decisions.md             # 기술 의사결정 기록
 │
+├── postgres/                    # DB 초기화 스크립트 (DB-first 스키마 관리)
+│   ├── auth-init/
+│   │   └── 01_create_users.sql  # auth-db 테이블 정의
+│   └── booking-init/            # (Phase 3에서 추가)
+│
 ├── proto/
 │   └── auth.proto               # ValidateToken RPC 정의
 │
 ├── auth-service/                # Flask 회원 서비스
 │   ├── requirements.txt
 │   ├── app.py                   # Flask 앱 엔트리포인트
+│   ├── app/
+│   │   ├── __init__.py          # Application Factory (create_app)
+│   │   ├── models.py            # SQLAlchemy Reflection으로 User 클래스 구성
+│   │   └── blueprints/
+│   │       └── auth.py          # /register, /login 라우트
 │   ├── grpc_server.py           # gRPC 서버 (별도 스레드)
 │   ├── auth_pb2.py              # protoc 생성 (수정 금지)
-│   ├── auth_pb2_grpc.py         # protoc 생성 (수정 금지)
-│   └── blueprints/
-│       └── auth.py              # /register, /login 라우트
+│   └── auth_pb2_grpc.py         # protoc 생성 (수정 금지)
 │
 └── booking-service/             # FastAPI 예매 서비스
     ├── requirements.txt

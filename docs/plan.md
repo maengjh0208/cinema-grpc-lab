@@ -18,11 +18,18 @@
 - [x] `.env.example` 작성 (DB 접속 정보 등)
 
 ## Phase 2: auth-service (Flask)
-- [ ] Flask 앱 기본 구조 (`app.py`, `blueprints/`)
-- [ ] 사용자 모델 (SQLite or 인메모리)
+- [x] Flask Application Factory 구조 (`app/__init__.py`, `app/blueprints/`)
+- [x] `app/__init__.py` — DB URI를 PostgreSQL로 교체, 환경변수로 관리
+- [x] `docker-compose.yml` — `env_file` 로 환경변수 주입
+- [x] `app/models.py` — SQLAlchemy ORM으로 User 모델 정의 (Code-first)
+- [ ] `requirements.txt` — `Flask-Migrate` 추가
+- [ ] `app/__init__.py` — `Flask-Migrate` 연동
+- [ ] Alembic 초기화 및 첫 마이그레이션 생성 (`flask db init/migrate/upgrade`)
+- [ ] Docker 시작 시 마이그레이션 자동 실행 (`entrypoint.sh` 또는 `Dockerfile CMD`)
 - [ ] 회원가입 API `POST /register`
 - [ ] 로그인 API `POST /login` → JWT 발급
 - [ ] JWT 검증 유틸 함수
+- [ ] `app.py` 엔트리포인트 작성
 
 ## Phase 3: booking-service (FastAPI)
 - [ ] FastAPI 앱 기본 구조 (`main.py`, `routers/`)
