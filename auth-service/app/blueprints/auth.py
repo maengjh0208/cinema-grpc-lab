@@ -4,12 +4,12 @@ from app.models import User
 from flask import Blueprint, jsonify, request
 from sqlalchemy import select
 
-auth_bp = Blueprint("auth", __name__)  # 임시
+auth_bp = Blueprint("auth", __name__)
 
 
 # POST /register - 회원 가입
 # 레이어 별로 로직을 분기하는 작업은 나중에.
-@auth_bp.router("/register", methods=["POST"])
+@auth_bp.route("/register", methods=["POST"])
 def register():
     try:
         data = request.get_json()
