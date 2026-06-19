@@ -35,6 +35,13 @@ Client → booking-service(FastAPI) → gRPC → auth-service(Flask)
 - 각 서비스는 독립 venv (서비스별 requirements.txt)
 - proto 파일에서 생성된 코드는 `*_pb2.py`, `*_pb2_grpc.py` — 직접 수정 금지
 - 새 기능 추가 전에 반드시 `docs/plan.md`의 TODO를 확인
+- SQLAlchemy는 **v2 스타일만 사용** — `User.query.filter_by()` 같은 v1 스타일(deprecated) 금지
+  ```python
+  # 올바른 예시
+  from sqlalchemy import select
+  stmt = select(User).where(User.email == email)
+  user = db.session.execute(stmt).scalar_one_or_none()
+  ```
 
 ## 진행 상황 업데이트 규칙
 작업 완료 시 `docs/progress.md`에 날짜와 함께 기록 추가.

@@ -5,3 +5,4 @@ pyjwt==2.13.0              # JWT 발급/검증
 grpcio==1.81.1             # gRPC 런타임
 grpcio-tools==1.81.1       # protoc 코드 생성 도구
 flask-migrate==4.1.0       # DB 스키마 변경사항을 버전 관리
+bcrypt==4.3.0              # 비밀번호 해싱
