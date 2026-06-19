@@ -11,15 +11,13 @@ migrate = Migrate()
 
 # Application Factory 패턴 - 목적: 앱을 함수 호출 시점에 구성하는 것
 def create_app() -> Flask:
-    AUTH_DB_NAME = os.environ.get("AUTH_DB_NAME")
-    AUTH_DB_USER = os.environ.get("AUTH_DB_USER")
-    AUTH_DB_PASSWORD = os.environ.get("AUTH_DB_PASSWORD")
-    AUTH_DB_HOST = os.environ.get("AUTH_DB_HOST")
-    AUTH_DB_PORT = os.environ.get("AUTH_DB_PORT")
-
     app = Flask(__name__)
+
+    # flask 환경변수 관리 방식:
+    # 환경변수(.env) -> create_app() 에서 app.config 에 로드 -> 코드상에서 current_app.config 로 접근
     app.config["SQLALCHEMY_DATABASE_URI"] = (
-        f"postgresql://{AUTH_DB_USER}:{AUTH_DB_PASSWORD}@{AUTH_DB_HOST}:{AUTH_DB_PORT}/{AUTH_DB_NAME}"
+        f"postgresql://{os.environ.get('AUTH_DB_USER')}:{os.environ.get('AUTH_DB_PASSWORD')}"
+        f"@{os.environ.get('AUTH_DB_HOST')}:{os.environ.get('AUTH_DB_PORT')}/{os.environ.get('AUTH_DB_NAME')}"
     )
     app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
 
