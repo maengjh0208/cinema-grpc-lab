@@ -22,14 +22,14 @@
 - [x] `app/__init__.py` — DB URI를 PostgreSQL로 교체, 환경변수로 관리
 - [x] `docker-compose.yml` — `env_file` 로 환경변수 주입
 - [x] `app/models.py` — SQLAlchemy ORM으로 User 모델 정의 (Code-first)
-- [ ] `requirements.txt` — `Flask-Migrate` 추가
-- [ ] `app/__init__.py` — `Flask-Migrate` 연동
-- [ ] Alembic 초기화 및 첫 마이그레이션 생성 (`flask db init/migrate/upgrade`)
-- [ ] Docker 시작 시 마이그레이션 자동 실행 (`entrypoint.sh` 또는 `Dockerfile CMD`)
-- [ ] 회원가입 API `POST /register`
-- [ ] 로그인 API `POST /login` → JWT 발급
+- [x] `requirements.txt` — `Flask-Migrate`, `bcrypt` 추가
+- [x] `app/__init__.py` — `Flask-Migrate` 연동
+- [x] Alembic 초기화 및 첫 마이그레이션 생성/적용 (`flask db init/migrate/upgrade`)
+- [x] 마이그레이션은 자동 실행 대신 `Makefile`로 수동 실행 (결정: race condition 방지)
+- [x] `app.py` 엔트리포인트 작성
+- [x] 회원가입 API `POST /auth/register`
+- [x] 로그인 API `POST /auth/login` → JWT 발급
 - [ ] JWT 검증 유틸 함수
-- [ ] `app.py` 엔트리포인트 작성
 
 ## Phase 3: booking-service (FastAPI)
 - [ ] FastAPI 앱 기본 구조 (`main.py`, `routers/`)
@@ -58,4 +58,4 @@
 ---
 
 ## 현재 단계
-**Phase 2 진행 중** — auth-service Flask 앱 구현 시작
+**Phase 2 진행 중** — JWT 검증 유틸 함수만 남음, 이후 Phase 3(gRPC) 시작 예정

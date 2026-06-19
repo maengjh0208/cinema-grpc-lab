@@ -33,3 +33,16 @@
   - `Makefile` — auth-migrate, auth-migrate-create, auth-migrate-init 명령 추가
   - Alembic 초기화 (`flask db init`) 및 첫 마이그레이션 생성/적용 완료 (`users` 테이블)
 - **다음 할 일**: 회원가입 API `POST /register` → 로그인 API `POST /login` + JWT 발급
+
+## 2026-06-19
+- Phase 2 계속
+  - `requirements.txt` — `bcrypt` 추가
+  - `app/blueprints/auth.py` — `POST /auth/register` 구현 (이메일 중복 확인, bcrypt 해싱, DB 저장, try/rollback)
+  - `app/blueprints/auth.py` — `POST /auth/login` 구현 (bcrypt 검증, PyJWT 토큰 발급)
+  - `Dockerfile` — `flask run --reload` 추가 (볼륨 마운트 + 자동 재시작)
+  - `docker-compose.yml` — auth-service 포트 `5001:5000`으로 변경 (macOS AirPlay 포트 충돌 해결)
+  - `docker-compose.yml` — healthcheck에 `-d ${AUTH_DB_NAME}` 추가 (FATAL 노이즈 제거)
+  - `CLAUDE.md` — SQLAlchemy v2 스타일 규칙 추가
+  - Docker 볼륨 재생성 (`docker compose down -v`) — 초기화 누락 문제 해결
+  - `/register`, `/login` API 테스트 완료
+- **다음 할 일**: JWT 검증 유틸 함수 → gRPC 서버 구현 (Phase 3 시작)
