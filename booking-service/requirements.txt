@@ -5,3 +5,4 @@ asyncpg==0.31.0             # PostgreSQL 비동기 드라이버
 pyjwt==2.13.0               # JWT 검증
 grpcio==1.81.1              # gRPC 런타임
 grpcio-tools==1.81.1        # protoc 코드 생성 도구
+alembic==1.16.1             # 마이그레이션
