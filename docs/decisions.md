@@ -40,6 +40,25 @@
 
 ---
 
+## [2026-06-22] gRPC 핸들러에서 Flask app context 명시 필요
+
+**결정**: gRPC 서버 핸들러에서 `verify_token` 등 Flask context가 필요한 함수를 호출할 때 `app.app_context()`를 명시적으로 감싸야 함
+
+**이유**
+- gRPC 서버는 Flask HTTP 서버와 **별도 스레드**로 실행됨
+- Flask의 `current_app`, `g` 등은 요청 컨텍스트(request context) 또는 앱 컨텍스트(app context) 안에서만 동작함
+- 별도 스레드에는 Flask가 자동으로 context를 주입하지 않으므로 직접 열어줘야 함
+
+**구현 방식**
+```python
+# gRPC 핸들러 안에서
+with app.app_context():
+    payload = verify_token(token)
+```
+또는 gRPC 서버 시작 시 `app` 인스턴스를 핸들러 클래스에 주입해서 사용
+
+---
+
 ## [2026-06-18] ORM 전략 변경: Code-first + Alembic 마이그레이션
 
 **결정**: SQLAlchemy ORM 모델을 코드로 정의하고, Alembic(Flask-Migrate)으로 스키마 변경을 관리
