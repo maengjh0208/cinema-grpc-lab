@@ -40,6 +40,33 @@
 
 ---
 
+## [2026-06-22] booking-service 좌석 모델 설계: Seat 테이블 별도 분리
+
+**결정**: `Seat` 테이블을 별도로 두고 예매 시 특정 좌석을 점유하는 방식
+
+**이유**
+- gRPC 학습이 주 목표이지만, 좌석 예매 시스템을 설계하면서 생기는 고민도 충분히 경험하고자 함
+- `available_seats` 카운트만 줄이는 방식은 현실과 거리가 있고, 중복 예매 방지 등 실질적인 문제를 다루지 못함
+
+**테이블 구조**
+```
+Movie (1) ──< Screening (1) ──< Seat (0..1) ──< Booking
+```
+- `Screening` 생성 시 `Seat`도 함께 생성 (총 좌석 수만큼)
+- 예매 시 특정 `Seat`를 점유 (`is_booked = True`)
+- `Booking`은 `Seat`를 FK로 참조
+
+**이 설계에서 생기는 고민들**
+- 상영 생성 시 좌석을 어떻게 자동 생성할 것인가 (DB 트리거 vs 애플리케이션 로직)
+- 동시에 같은 좌석을 예매하려는 요청이 들어올 때 race condition 처리
+- 좌석 번호 체계 (A1, B3 vs 단순 정수)
+
+**대안**
+- A: `available_seats` 카운트만 감소 — 단순하지만 좌석 식별 불가
+- B: `Booking.seat_number` 추가 — 중간 수준이나 좌석 목록의 소스가 불명확
+
+---
+
 ## [2026-06-22] gRPC 핸들러에서 Flask app context 명시 필요
 
 **결정**: gRPC 서버 핸들러에서 `verify_token` 등 Flask context가 필요한 함수를 호출할 때 `app.app_context()`를 명시적으로 감싸야 함
