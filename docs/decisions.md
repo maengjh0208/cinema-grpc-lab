@@ -40,6 +40,29 @@
 
 ---
 
+## [2026-06-22] booking-service DB 드라이버: 비동기 스택 선택
+
+**결정**: `psycopg2-binary` 대신 `asyncpg` + SQLAlchemy 비동기 스택 사용
+
+**이유**
+- FastAPI는 비동기 프레임워크이므로 동기 드라이버를 쓰면 `async def` 라우터 안에서 이벤트 루프를 blocking
+- `asyncpg` + `AsyncSession`을 쓰면 I/O 대기 중 다른 요청을 처리할 수 있어 FastAPI 본래 성능을 활용 가능
+- 비동기 DB 연동 패턴을 직접 경험하는 것 자체가 학습 목표 중 하나
+
+**변경 범위**
+- `requirements.txt`: `psycopg2-binary` → `asyncpg`
+- `database.py`: `create_engine` → `create_async_engine`, `sessionmaker` → `async_sessionmaker`, `Session` → `AsyncSession`
+- `get_db()`: `async def` + `async with`로 변경
+- 라우터 핸들러: `def` → `async def`, 쿼리에 `await` 추가
+
+**주의사항**
+- DB URL 스킴 변경 필요: `postgresql://` → `postgresql+asyncpg://`
+- `await db.execute(...)`, `await db.commit()` 등 모든 DB 호출에 `await` 필요
+
+**대안**: `def` + `psycopg2-binary` — FastAPI가 스레드풀에서 실행해 이벤트 루프는 막지 않으나, 비동기 패턴을 배우는 기회를 놓침
+
+---
+
 ## [2026-06-22] booking-service 좌석 모델 설계: Seat 테이블 별도 분리
 
 **결정**: `Seat` 테이블을 별도로 두고 예매 시 특정 좌석을 점유하는 방식
