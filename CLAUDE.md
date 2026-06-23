@@ -44,8 +44,11 @@ Client → booking-service(FastAPI) → gRPC → auth-service(Flask)
   ```
 
 ## 진행 상황 업데이트 규칙
-작업 완료 시 `docs/progress.md`에 날짜와 함께 기록 추가.
-의사결정이 생기면 `docs/decisions.md`에 이유와 함께 기록.
+- 작업 단위(기능, 파일, 설계 결정)가 완료될 때마다 **자동으로** 아래를 업데이트:
+  - `docs/progress.md` — 날짜별 완료 항목 추가
+  - `docs/plan.md` — 완료된 TODO 체크, 현재 단계 업데이트
+  - `docs/decisions.md` — 설계 결정이 생긴 경우 이유와 함께 기록
+- 사용자가 별도로 요청하지 않아도 작업 완료 시점에 docs를 업데이트한다.
 
 ## 협업 방식
 - **직접 코딩 실습**: 사용자가 직접 코드를 작성하며 학습. Claude는 코드를 대신 짜주는 게 아니라 가이드 역할.

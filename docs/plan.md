@@ -17,7 +17,7 @@
 - [x] `.gitignore` 확인 (`*_pb2.py`, `.env` 등)
 - [x] `.env.example` 작성 (DB 접속 정보 등)
 
-## Phase 2: auth-service (Flask)
+## Phase 2: auth-service (Flask) ✅
 - [x] Flask Application Factory 구조 (`app/__init__.py`, `app/blueprints/`)
 - [x] `app/__init__.py` — DB URI를 PostgreSQL로 교체, 환경변수로 관리
 - [x] `docker-compose.yml` — `env_file` 로 환경변수 주입
@@ -29,14 +29,17 @@
 - [x] `app.py` 엔트리포인트 작성
 - [x] 회원가입 API `POST /auth/register`
 - [x] 로그인 API `POST /auth/login` → JWT 발급
-- [ ] JWT 검증 유틸 함수
+- [x] JWT 검증 유틸 함수 (`app/utils/jwt.py`)
 
 ## Phase 3: booking-service (FastAPI)
-- [ ] FastAPI 앱 기본 구조 (`main.py`, `routers/`)
-- [ ] 영화 목록 조회 `GET /movies`
-- [ ] 상영 일정 조회 `GET /movies/{id}/screenings`
+- [x] FastAPI 앱 기본 구조 (`main.py`, `routers/`)
+- [x] DB 설정 (`database.py`) — asyncpg + AsyncSession + Alembic async 마이그레이션
+- [x] ORM 모델 정의 (`models.py`) — Movie, Hall, Screening, Seat, Booking
+- [x] 영화 목록 조회 `GET /movies`
+- [x] 상영 일정 조회 `GET /movies/{id}/screenings`
 - [ ] 좌석 예매 `POST /bookings` (인증 필요)
 - [ ] JWT Bearer 토큰 의존성 주입
+- [ ] repository/service 레이어 분리 (라우터에서 비즈니스 로직 분리)
 
 ## Phase 4: gRPC 연동
 - [ ] `proto/auth.proto` 작성 — `ValidateToken` RPC 정의
@@ -58,4 +61,4 @@
 ---
 
 ## 현재 단계
-**Phase 2 진행 중** — JWT 검증 유틸 함수만 남음, 이후 Phase 3(gRPC) 시작 예정
+**Phase 3 진행 중** — `POST /bookings` 및 JWT 의존성 주입 구현 후 레이어 분리 예정

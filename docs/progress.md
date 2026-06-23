@@ -46,3 +46,28 @@
   - Docker 볼륨 재생성 (`docker compose down -v`) — 초기화 누락 문제 해결
   - `/register`, `/login` API 테스트 완료
 - **다음 할 일**: JWT 검증 유틸 함수 → gRPC 서버 구현 (Phase 3 시작)
+
+## 2026-06-22
+- Phase 2 완료
+  - `app/utils/jwt.py` — `verify_token()` 구현 (B 방식: 예외 bubble up, gRPC 핸들러에서 catch)
+  - `.gitignore` — `data/` 추가 (Claude Code 상태 파일 제외)
+  - `docs/decisions.md` — gRPC 핸들러 Flask app context 명시 필요 기록
+- Phase 3 시작
+  - `booking-service/main.py` — FastAPI 앱 기본 구조, `/healthcheck` 엔드포인트
+  - `booking-service/Dockerfile` — uvicorn 실행으로 변경
+  - `booking-service/database.py` — asyncpg + create_async_engine + async_sessionmaker + get_db 비동기 제너레이터
+  - `booking-service/requirements.txt` — asyncpg, alembic 추가 (psycopg2-binary 제거)
+  - `booking-service/models.py` — Movie, Hall, Screening, Seat, Booking ORM 모델 정의
+  - `booking-service/routers/` — movies.py, bookings.py 라우터 구조 생성
+  - `booking-service/README.md` — DB 관계도 (Mermaid ERD) 작성
+  - Alembic async 템플릿으로 마이그레이션 설정, 초기 테이블 생성 완료
+  - `Makefile` — booking-migrate-init, booking-migrate-create, booking-migrate 명령 추가
+  - `GET /movies` 구현 + `MovieResponse` 스키마
+  - `GET /movies/{movie_id}/screenings` 구현 + `ScreeningResponse` 스키마
+  - `docs/decisions.md` — 비동기 DB 스택 선택, 좌석 모델 설계(Hall/Seat 분리), Hall 테이블 추가 결정 기록
+- **다음 할 일**: `POST /bookings` 구현 + JWT Bearer 의존성 주입 → 레이어 분리
+
+## 2026-06-23
+- Phase 3 계속
+  - `GET /movies/{movie_id}/screenings` f-string 버그 수정
+- **다음 할 일**: `POST /bookings` 구현 + JWT Bearer 의존성 주입
