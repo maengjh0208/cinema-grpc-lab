@@ -70,4 +70,10 @@
 ## 2026-06-23
 - Phase 3 계속
   - `GET /movies/{movie_id}/screenings` f-string 버그 수정
-- **다음 할 일**: `POST /bookings` 구현 + JWT Bearer 의존성 주입
+  - `booking-service/dependencies.py` — `get_current_user_id` JWT Bearer 의존성 구현
+  - `booking-service/schemas.py` — `BookingRequest`, `BookingResponse` 추가
+  - `booking-service/routers/bookings.py` — `POST /bookings` 구현 (screening/seat 존재 확인, UniqueConstraint 위반 시 409)
+  - `booking-service/seeds/seed.sql` — 초기 seed 데이터 저장
+  - `booking-service/database.py` — `get_db` except 블록에 `raise` 추가 (yield 의존성 예외 소멸 버그 수정)
+  - `POST /bookings` 테스트 완료 (정상 예매 201, 중복 예매 409)
+- **다음 할 일**: repository/service 레이어 분리 또는 Phase 4 gRPC 연동

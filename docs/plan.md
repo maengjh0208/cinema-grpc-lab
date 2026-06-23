@@ -37,8 +37,8 @@
 - [x] ORM 모델 정의 (`models.py`) — Movie, Hall, Screening, Seat, Booking
 - [x] 영화 목록 조회 `GET /movies`
 - [x] 상영 일정 조회 `GET /movies/{id}/screenings`
-- [ ] 좌석 예매 `POST /bookings` (인증 필요)
-- [ ] JWT Bearer 토큰 의존성 주입
+- [x] 좌석 예매 `POST /bookings` (인증 필요)
+- [x] JWT Bearer 토큰 의존성 주입
 - [ ] repository/service 레이어 분리 (라우터에서 비즈니스 로직 분리)
 
 ## Phase 4: gRPC 연동

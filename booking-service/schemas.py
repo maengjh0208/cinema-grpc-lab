@@ -20,3 +20,18 @@ class ScreeningResponse(BaseModel):
     start_time: datetime
 
     model_config = {"from_attributes": True}
+
+
+class BookingRequest(BaseModel):
+    screening_id: int
+    seat_id: int
+
+
+class BookingResponse(BaseModel):
+    id: int
+    screening_id: int
+    seat_id: int
+    user_id: int
+    created_at: datetime
+
+    model_config = {"from_attributes": True}

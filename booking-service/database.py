@@ -29,5 +29,7 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
         try:
             yield db
             await db.commit()
-        except Exception:  # # except: 만 하면 프로그램 종료 신호(KeyboardInterrupt, SystemExit 등)까지 가로챔.
+        except Exception:
             await db.rollback()
+            # 중요: yield 의존성에서 except Exception을 쓰면 반드시 re-raise를 해야 함.
+            raise
