@@ -4,12 +4,27 @@ services:
     container_name: auth-service
     ports:
       - "5001:5000"
-      - "50051:50051" # gRPC
     env_file:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
       - FLASK_APP=wsgi.py
+    volumes:
+      - ./auth-service:/app
+    depends_on:
+      auth-db:
+        condition: service_healthy
+
+  auth-grpc:
+    build: ./auth-service
+    container_name: auth-grpc
+    command: python grpc_server.py
+    ports:
+      - "50051:50051"
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
     volumes:
       - ./auth-service:/app
       - ./proto:/app/proto

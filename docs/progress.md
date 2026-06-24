@@ -77,3 +77,23 @@
   - `booking-service/database.py` — `get_db` except 블록에 `raise` 추가 (yield 의존성 예외 소멸 버그 수정)
   - `POST /bookings` 테스트 완료 (정상 예매 201, 중복 예매 409)
 - **다음 할 일**: repository/service 레이어 분리 또는 Phase 4 gRPC 연동
+
+## 2026-06-24
+- Phase 4 완료
+  - `proto/auth.proto` — `ValidateToken` RPC 정의
+  - `proto/auth_pb2.py`, `proto/auth_pb2_grpc.py` — `make auth-proto-gen`으로 생성
+  - `auth-service/grpc_server.py` — gRPC 서버 구현 (`AuthServiceServicer.ValidateToken`)
+  - `auth-service/wsgi.py` — Flask 엔트리포인트 (`app.py` → `wsgi.py` 이름 변경, 패키지 충돌 해결)
+  - `auth-service/app/utils/jwt.py` — `current_app.config` → `os.environ` 변경 (gRPC 스레드는 Flask context 밖)
+  - `booking-service/dependencies.py` — JWT 로컬 검증 → gRPC 호출로 교체
+  - `booking-service/exceptions.py` — `UNAUTHORIZED` ErrorCode, `UnAuthorizedError` 추가
+  - `docker-compose.yml` — proto 볼륨 마운트, `FLASK_APP=wsgi.py` 환경변수 추가
+  - `Makefile` — `auth-proto-gen` 태스크 추가
+  - booking-service에서 gRPC 호출 성공 확인
+- gRPC 서버 컨테이너 분리 리팩토링
+  - `auth-service/grpc_server.py` — `if __name__ == "__main__": serve()` 추가
+  - `auth-service/wsgi.py` — gRPC 스레드 코드 제거, Flask만 남김
+  - `docker-compose.yml` — `auth-grpc` 서비스 분리 (`command: python grpc_server.py`, 같은 이미지 재사용)
+  - `booking-service/dependencies.py` — `auth-service:50051` → `auth-grpc:50051`
+  - 테스트 완료
+- **다음 할 일**: Phase 5 — 전체 흐름 통합 테스트 (회원가입 → 로그인 → 토큰 → 예매)

@@ -19,7 +19,7 @@ def get_current_user_id(credentials: Annotated[HTTPAuthorizationCredentials, Dep
     token = credentials.credentials
 
     # Docker 내부 네트워크에서 auth-service 의 50051 포트로 연결
-    with grpc.insecure_channel("auth-service:50051") as channel:
+    with grpc.insecure_channel("auth-grpc:50051") as channel:
         stub = auth_pb2_grpc.AuthServiceStub(channel)
         response = stub.ValidateToken(auth_pb2.ValidateTokenRequest(token=token))
 

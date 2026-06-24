@@ -90,26 +90,24 @@ Movie (1) ──< Screening (1) ──< Seat (0..1) ──< Booking
 
 ---
 
-## [2026-06-24] gRPC 서버 실행 방식: 스레드 → 별도 컨테이너 전환 예정
+## [2026-06-24] gRPC 서버 실행 방식: 스레드 → 별도 컨테이너 전환 ✅
 
-**현재 결정**: auth-service 컨테이너 안에서 Flask HTTP + gRPC 서버를 스레드로 함께 실행
+**최종 결정**: `auth-grpc` 컨테이너를 별도로 분리 (`auth-service`와 같은 이미지, 다른 `command:`)
 
-**이유**
-- 학습 초기에는 구조를 단순하게 유지해 gRPC 흐름 자체에 집중
-- 스레드 방식이 동작 원리를 이해하기에 더 직관적
+**경위**
+1. 학습 초기: Flask와 같은 컨테이너에서 스레드로 gRPC 실행 (동작 원리 이해 목적)
+2. 리팩토링: 별도 컨테이너로 분리 (같은 이미지 재사용, `command:` override)
 
-**다음 단계 (이해 후 리팩토링 예정)**
-같은 이미지를 두 컨테이너로 나눠 실행하는 방식으로 전환:
 ```yaml
 auth-service:
-  command: flask run ...          # HTTP만 담당
+  command: (Dockerfile CMD) flask run ...   # HTTP만 담당
 
-auth-grpc-service:
-  build: ./auth-service           # 같은 이미지 재사용
-  command: python grpc_server.py  # gRPC만 담당
+auth-grpc:
+  build: ./auth-service                     # 같은 이미지 재사용
+  command: python grpc_server.py            # gRPC만 담당
 ```
 
-**이렇게 분리하는 이유**
+**분리하는 이유**
 - HTTP와 gRPC를 독립적으로 스케일링 가능 (gRPC 트래픽이 많으면 gRPC 컨테이너만 늘림)
 - 한 쪽 장애가 다른 쪽에 영향 없음
 - Flask reloader와 gRPC 스레드 간 프로세스 충돌 문제 원천 제거

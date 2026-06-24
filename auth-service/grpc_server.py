@@ -36,3 +36,7 @@ def serve():
 
     # 서버를 계속 실행 상태로 유지
     server.wait_for_termination()
+
+
+if __name__ == "__main__":
+    serve()
