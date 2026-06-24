@@ -18,6 +18,20 @@ auth-migrate:
 	docker compose run --rm auth-service flask db upgrade
 
 # ===============================================
+# proto
+# ===============================================
+
+# auth.proto 에서 Python 코드 생성
+# auth_pb2.py (message 클래스), auth_pb2_grpc.py (서버/클라이언트 stub) 가 proto/ 에 생성됨
+auth-proto-gen:
+	docker compose run --rm auth-service \
+		python -m grpc_tools.protoc \
+		-I /app/proto \
+		--python_out=/app/proto \
+		--grpc_python_out=/app/proto \
+		/app/proto/auth.proto
+
+# ===============================================
 # booking-service
 # ===============================================
 

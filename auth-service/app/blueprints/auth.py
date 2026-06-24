@@ -9,8 +9,6 @@ from sqlalchemy import select
 
 auth_bp = Blueprint("auth", __name__)
 
-# TODO: 레이어 별로 로직을 분기하는 작업은 나중에.
-
 
 # POST /auth/register - 회원 가입
 @auth_bp.route("/auth/register", methods=["POST"])

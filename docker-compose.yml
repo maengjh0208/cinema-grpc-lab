@@ -9,8 +9,10 @@ services:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
+      - FLASK_APP=wsgi.py
     volumes:
       - ./auth-service:/app
+      - ./proto:/app/proto
     depends_on:
       auth-db:
         condition: service_healthy
@@ -26,6 +28,7 @@ services:
       - PYTHONUNBUFFERED=1
     volumes:
       - ./booking-service:/app
+      - ./proto:/app/proto
     depends_on:
       booking-db:
         condition: service_healthy

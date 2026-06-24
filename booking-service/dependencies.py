@@ -1,27 +1,29 @@
-import os
+import sys
 from typing import Annotated
 
-import jwt
-from fastapi import Depends, HTTPException
+import grpc
+from exceptions import ErrorCode, UnAuthorizedError
+from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
+sys.path.insert(0, "/app/proto")
+
+import auth_pb2  # noqa: E402
+import auth_pb2_grpc  # noqa: E402
 
 # Authorization: Bearer xxx 헤더를 자동으로 파싱
 security = HTTPBearer()
 
 
 def get_current_user_id(credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)]) -> int:
-    # Bearer 뒤의 토큰 문자열만 꺼냄
     token = credentials.credentials
 
-    # TODO: auth-service 에서 gRPC 호출로 변경 예정
-    try:
-        payload = jwt.decode(
-            jwt=token,
-            key=os.environ["JWT_SECRET_KEY"],
-            algorithms=["HS256"],
-        )
-        return int(payload["user_id"])
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="토큰 만료됨")
-    except jwt.InvalidTokenError:
-        raise HTTPException(status_code=401, detail="유효하지 않은 토큰")
+    # Docker 내부 네트워크에서 auth-service 의 50051 포트로 연결
+    with grpc.insecure_channel("auth-service:50051") as channel:
+        stub = auth_pb2_grpc.AuthServiceStub(channel)
+        response = stub.ValidateToken(auth_pb2.ValidateTokenRequest(token=token))
+
+    if not response.is_valid:
+        raise UnAuthorizedError(ErrorCode.UNAUTHORIZED, "유효하지 않은 토큰")
+
+    return response.user_id

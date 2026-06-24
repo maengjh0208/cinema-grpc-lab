@@ -39,14 +39,14 @@
 - [x] 상영 일정 조회 `GET /movies/{id}/screenings`
 - [x] 좌석 예매 `POST /bookings` (인증 필요)
 - [x] JWT Bearer 토큰 의존성 주입
-- [ ] repository/service 레이어 분리 (라우터에서 비즈니스 로직 분리)
+- [x] repository/service 레이어 분리 (domain, repository, service, exception 계층 분리)
 
-## Phase 4: gRPC 연동
-- [ ] `proto/auth.proto` 작성 — `ValidateToken` RPC 정의
-- [ ] protoc로 Python 코드 생성 (`auth_pb2.py`, `auth_pb2_grpc.py`)
-- [ ] auth-service에 gRPC 서버 추가 (Flask HTTP과 별도 스레드)
-- [ ] booking-service에 gRPC 클라이언트 추가
-- [ ] 예매 요청 시 gRPC로 토큰 검증하는 흐름 완성
+## Phase 4: gRPC 연동 ✅
+- [x] `proto/auth.proto` 작성 — `ValidateToken` RPC 정의
+- [x] protoc로 Python 코드 생성 (`auth_pb2.py`, `auth_pb2_grpc.py`)
+- [x] auth-service에 gRPC 서버 추가 (Flask HTTP과 별도 스레드)
+- [x] booking-service에 gRPC 클라이언트 추가
+- [x] 예매 요청 시 gRPC로 토큰 검증하는 흐름 완성
 
 ## Phase 5: 통합 테스트
 - [ ] 전체 흐름 수동 테스트 (회원가입 → 로그인 → 토큰 받기 → 예매)
@@ -61,4 +61,4 @@
 ---
 
 ## 현재 단계
-**Phase 3 진행 중** — `POST /bookings` 및 JWT 의존성 주입 구현 후 레이어 분리 예정
+**Phase 4 완료 → Phase 5 시작** — 전체 흐름 통합 테스트
