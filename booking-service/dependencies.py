@@ -1,15 +1,11 @@
-import sys
 from typing import Annotated
 
+import auth_pb2
+import auth_pb2_grpc
 import grpc
 from core.exceptions import ErrorCode, UnAuthorizedError
 from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-
-sys.path.insert(0, "/app/proto")
-
-import auth_pb2  # noqa: E402
-import auth_pb2_grpc  # noqa: E402
 
 # Authorization: Bearer xxx 헤더를 자동으로 파싱
 security = HTTPBearer()

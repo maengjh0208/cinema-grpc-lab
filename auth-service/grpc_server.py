@@ -1,15 +1,9 @@
-import sys
 from concurrent import futures
 
+import auth_pb2
+import auth_pb2_grpc
 import grpc
 from app.utils.jwt import verify_token
-
-# Docker 컨테이너 안에서 proto 디렉토리를 Python 모듈 검색 경로에 추가
-sys.path.insert(0, "/app/proto")
-
-
-import auth_pb2  # noqa: E402
-import auth_pb2_grpc  # noqa: E402
 
 
 # auth_pb2_grpc 의 AuthServiceServicer 를 상속받고, ValidateToken 를 오버라이드 - 실제 로직 구현

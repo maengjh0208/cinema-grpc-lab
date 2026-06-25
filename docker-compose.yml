@@ -25,6 +25,7 @@ services:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app/proto
     volumes:
       - ./auth-service:/app
       - ./proto:/app/proto
@@ -41,6 +42,7 @@ services:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app/proto
     volumes:
       - ./booking-service:/app
       - ./proto:/app/proto
