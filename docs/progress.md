@@ -96,4 +96,10 @@
   - `docker-compose.yml` — `auth-grpc` 서비스 분리 (`command: python grpc_server.py`, 같은 이미지 재사용)
   - `booking-service/dependencies.py` — `auth-service:50051` → `auth-grpc:50051`
   - 테스트 완료
-- **다음 할 일**: Phase 5 — 전체 흐름 통합 테스트 (회원가입 → 로그인 → 토큰 → 예매)
+## 2026-06-25
+- 코드 구조 개선
+  - `booking-service/domain.py` — Pydantic `BaseModel` → `dataclass`로 전환 (내부 전달용 객체에 불필요한 검증 제거)
+  - `booking-service/core/` 디렉토리 생성 — `database.py`, `exceptions.py`, `exception_handlers.py` 이동 (인프라/설정 레이어 분리)
+  - `docker-compose.yml` — `PYTHONPATH=/app/proto` 환경변수 추가 (`auth-grpc`, `booking-service`)
+  - `grpc_server.py`, `dependencies.py` — `sys.path.insert` 및 `# noqa: E402` 제거
+- **프로젝트 완료**

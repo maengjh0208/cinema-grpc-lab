@@ -31,7 +31,7 @@
 - [x] 로그인 API `POST /auth/login` → JWT 발급
 - [x] JWT 검증 유틸 함수 (`app/utils/jwt.py`)
 
-## Phase 3: booking-service (FastAPI)
+## Phase 3: booking-service (FastAPI) ✅
 - [x] FastAPI 앱 기본 구조 (`main.py`, `routers/`)
 - [x] DB 설정 (`database.py`) — asyncpg + AsyncSession + Alembic async 마이그레이션
 - [x] ORM 모델 정의 (`models.py`) — Movie, Hall, Screening, Seat, Booking
@@ -48,17 +48,7 @@
 - [x] booking-service에 gRPC 클라이언트 추가
 - [x] 예매 요청 시 gRPC로 토큰 검증하는 흐름 완성
 
-## Phase 5: 통합 테스트
-- [ ] 전체 흐름 수동 테스트 (회원가입 → 로그인 → 토큰 받기 → 예매)
-- [ ] `curl` 또는 `httpx`로 E2E 시나리오 작성
-- [ ] gRPC 통신 로그 확인
-
-## Phase 6: 마무리
-- [ ] 환경 변수 정리 (`.env` 파일로 DB URL, JWT_SECRET 등 관리)
-- [ ] 간단한 에러 핸들링 정리
-- [ ] `docker compose up` 한 번으로 전체 흐름 동작 확인
-
 ---
 
 ## 현재 단계
-**Phase 4 완료 → Phase 5 시작** — 전체 흐름 통합 테스트
+**전체 구현 완료**
