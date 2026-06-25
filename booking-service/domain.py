@@ -2,26 +2,28 @@
 # 순수 Pydantic 도메인 객체 (비즈니스 레이어)
 # =============================
 
+from dataclasses import dataclass
 from datetime import datetime
 
-from pydantic import BaseModel
 
-
-class MovieDomain(BaseModel):
+@dataclass
+class MovieDomain:
     id: int
     title: str
     description: str | None
     runtime_minutes: int
 
 
-class ScreeningDomain(BaseModel):
+@dataclass
+class ScreeningDomain:
     id: int
     movie_id: int
     hall_id: int
     start_time: datetime
 
 
-class BookingDomain(BaseModel):
+@dataclass
+class BookingDomain:
     id: int
     screening_id: int
     seat_id: int
@@ -29,7 +31,8 @@ class BookingDomain(BaseModel):
     created_at: datetime
 
 
-class SeatDomain(BaseModel):
+@dataclass
+class SeatDomain:
     id: int
     hall_id: int
     seat_name: str

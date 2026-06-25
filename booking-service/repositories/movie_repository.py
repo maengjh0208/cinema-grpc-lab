@@ -8,11 +8,6 @@ async def get_movie(session: AsyncSession, movie_id: int) -> MovieDomain | None:
     result = await session.execute(select(Movie).where(Movie.id == movie_id))
     movie = result.scalar_one_or_none()
 
-    # 이런식으로 pydantic 모델 인스턴스를 만들수도 있고
-    # return MovieDomain.model_validate(movie, from_attributes=True) if movie else None
-
-    # 혹은 좀 더 명시적으로 하고 싶으면 이렇게 하면 됨
-    # 필드가 많아지면 번거롭지만, 매핑이 명확하게 보여서 좋음
     return (
         MovieDomain(
             id=movie.id,
