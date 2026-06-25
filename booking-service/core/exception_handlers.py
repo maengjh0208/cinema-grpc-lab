@@ -1,4 +1,4 @@
-from exceptions import BadRequestError
+from core.exceptions import BadRequestError
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 

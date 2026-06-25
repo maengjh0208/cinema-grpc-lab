@@ -2,7 +2,7 @@ import sys
 from typing import Annotated
 
 import grpc
-from exceptions import ErrorCode, UnAuthorizedError
+from core.exceptions import ErrorCode, UnAuthorizedError
 from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 

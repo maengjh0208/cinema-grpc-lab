@@ -1,4 +1,4 @@
-from exception_handlers import register_exception_handlers
+from core.exception_handlers import register_exception_handlers
 from fastapi import FastAPI
 from routers.bookings import router as bookings_router
 from routers.movies import router as movies_router

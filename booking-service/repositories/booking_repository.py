@@ -1,5 +1,5 @@
+from core.exceptions import BadRequestError, ErrorCode
 from domain import BookingDomain, ScreeningDomain, SeatDomain
-from exceptions import BadRequestError, ErrorCode
 from models import Booking, Screening, Seat
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError

@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from database import get_db
+from core.database import get_db
 from fastapi import APIRouter, Depends
 from schemas import MovieResponse, ScreeningResponse
 from services import movie_service

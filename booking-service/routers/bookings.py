@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from database import get_db
+from core.database import get_db
 from dependencies import get_current_user_id
 from fastapi import APIRouter, Depends
 from schemas import BookingRequest, BookingResponse

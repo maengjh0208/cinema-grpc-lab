@@ -1,5 +1,5 @@
+from core.exceptions import ErrorCode, NotFoundError
 from domain import MovieDomain, ScreeningDomain
-from exceptions import ErrorCode, NotFoundError
 from repositories import movie_repository
 from sqlalchemy.ext.asyncio import AsyncSession
 
